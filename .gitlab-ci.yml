@@ -1,0 +1,39 @@
+
+    variables:
+      IMAGE_NAME: romanysefen
+      TAG_NAME: latest
+
+    stages:
+      - test
+      - build
+
+    run_tests: 
+      stage: test # run tests in the test stage
+      image: node:18.4.0
+      before_script:
+        - npm install -g pnpm
+        - pnpm install
+      script:
+        - pnpm run test
+
+    build_image: 
+      stage: build # build the image in the build stage
+      image: docker:stable  # needed for docker-in-docker to run docker commands below
+      services:
+        - docker:dind # needed for docker-in-docker to run docker commands below
+      before_script: 
+        - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD  # login to docker hub with vars defined in the github repo and push to GitLab Container Registry
+      script:
+        - docker ps -aq |xargs docker stop |xargs docker rm -f
+        - docker build  -t $IMAGE_NAME:$TAG_NAME .
+        - docker push $IMAGE_NAME:$TAG_NAME
+    # build_image:
+    #   image: docker:stable
+    #   stage: build
+    #   services:
+    #     - docker:dind
+    #   before_script:
+    #     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    #   script:
+    #     - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG .
+    #     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
