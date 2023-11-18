@@ -1,6 +1,8 @@
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
 
+// SRC: https://github.com/vitest-dev/vitest/blob/main/examples/react-testing-lib/vite.config.ts
+
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
