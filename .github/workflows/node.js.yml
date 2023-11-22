@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-
+    name: Build react-hook-from-app
     runs-on: ubuntu-latest
 
     strategy:
@@ -21,7 +21,23 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: pnpm/action-setup@v2
+    - uses: pnpm/action-setup@v2  
+      with:
+       version: 6.32.9
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+    - run: npm install -g pnpm
+    - run: pnpm install
+    - run: pnpm run test
+  run_tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v2  
       with:
        version: 6.32.9
     - name: Use Node.js ${{ matrix.node-version }}
