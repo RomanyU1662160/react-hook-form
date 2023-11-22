@@ -59,10 +59,7 @@ jobs:
         with:
          version: 6.32.9
       - name: publish docker image to docker hub
-        uses: docker/build-push-action@v2
+        uses: jerray/publish-docker-action@master
         with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/react-hook-form-app:latest
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
