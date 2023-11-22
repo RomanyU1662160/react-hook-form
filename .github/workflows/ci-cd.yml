@@ -61,6 +61,6 @@ jobs:
       - name: publish docker image to docker hub
         uses: jerray/publish-docker-action@master
         with:
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/react-hook-form-app:latest
+          repository: ${{ secrets.DOCKER_HUB_USERNAME }}/react-hook-form-app
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
